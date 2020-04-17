@@ -6,9 +6,6 @@ const Ingredients = require('../models/Ingredient');
 const Methods = require('../models/Method');
 
 router.get('/', async (req, res) => {
-    // var drinks = await Drinks.findAll();
-    // res.status(200).send (drinks);
-
    var cats = await Categories.findAll({
        include:[{
            model:Drinks, include:[Methods, Ingredients]
@@ -16,4 +13,12 @@ router.get('/', async (req, res) => {
    });
    res.status(200).send (cats);
 });
+
+router.get('/:id', async(req, res) => {
+    var drink = await Drinks.findByPk(req.params.id, {
+        include:[Categories,Methods, Ingredients]
+    });
+    res.send(drink);
+});
+
 module.exports = router;
