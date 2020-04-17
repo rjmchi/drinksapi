@@ -1,6 +1,12 @@
 const Sequelize = require('sequelize');
-const dbConnection = new Sequelize('drinks', 'root', 'kether1330', {
-    host: 'localhost',
-    dialect: 'mysql',
+const dbConnection = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'drinks.db',
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    }    
 });
 module.exports = dbConnection;
