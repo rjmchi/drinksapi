@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
    var cats = await Categories.findAll({
        include:[{
            model:Drinks, include:[Methods, Ingredients]
-       }]
+       }], order:[['name'], [Drinks, 'name']]
    });
    res.status(200).send (cats);
 });
