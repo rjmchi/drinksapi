@@ -21,4 +21,15 @@ router.get('/:id', async(req, res) => {
     res.send(drink);
 });
 
+router.get('/category/:id', async(req,res) => {
+    var cat = await Categories.findByPk(req.params.id,{
+        include: [{
+            model: Drinks, include: [Methods, Ingredients], order: [[Ingredients, 'id'],]
+        }], order: [[Drinks, 'name']]
+    });
+    let cats = [];
+    cats.push(cat);
+    res.status(200).send(cats);
+});
+
 module.exports = router;
