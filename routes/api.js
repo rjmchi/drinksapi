@@ -8,7 +8,7 @@ const Methods = require('../models/Method');
 router.get('/', async (req, res) => {
    var cats = await Categories.findAll({
        include:[{
-           model:Drinks, include:[Methods, Ingredients]
+           model:Drinks, include:[Methods, Ingredients], order:[[Ingredients, 'id'],]
        }], order:[['name'], [Drinks, 'name']]
    });
    res.status(200).send (cats);
