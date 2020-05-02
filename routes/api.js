@@ -5,6 +5,13 @@ const Categories = require('../models/Category');
 const Ingredients = require('../models/Ingredient');
 const Methods = require('../models/Method');
 
+router.get('/category', async (req, res) => {
+    var cats = await Categories.findAll({
+        order: [['name']]
+    });
+    res.status(200).send(cats);
+});
+
 router.get('/', async (req, res) => {
    var cats = await Categories.findAll({
        include:[{
