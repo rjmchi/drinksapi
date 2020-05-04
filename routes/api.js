@@ -4,8 +4,11 @@ const Drinks = require('../models/Drink');
 const Categories = require('../models/Category');
 const Ingredients = require('../models/Ingredient');
 const Methods = require('../models/Method');
+const Sequelize = require('sequelize');
 
-router.get('/category', async (req, res) => {
+const Op = Sequelize.Op;
+
+router.get('/categories', async (req, res) => {
     var cats = await Categories.findAll({
         order: [['name']]
     });
@@ -36,6 +39,16 @@ router.get('/category/:id', async(req,res) => {
     });
     let cats = [];
     cats.push(cat);
+    res.status(200).send(cats);
+});
+
+router.get('/drink/:name', async (req, res) => {
+    let str = '%'+req.params.name+'%';
+    var cats = await Categories.findAll({
+        include: [{
+            model: Drinks, where: {name: {[Op.like]: str}},include: [Methods, Ingredients], order: [[Ingredients, 'id'],]
+        }], order: [['name'], [Drinks, 'name']]
+    });
     res.status(200).send(cats);
 });
 
